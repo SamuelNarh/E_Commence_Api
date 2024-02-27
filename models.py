@@ -2,10 +2,10 @@ from tortoise import Model,fields #From  Tortoise ORM
 import datetime
 from pydantic import BaseModel
 from datetime import datetime
-from tortoise.contrib.pydantic import pydamtic_model_creator
+from tortoise.contrib.pydantic import pydantic_model_creator
 
 class User(Model):
-    id = fields.Intfield(pk=True ,index=True)
+    id = fields.IntField(pk=True ,index=True)
     username= fields.CharField(max_length=20, nul =False, unique =True )
     email = fields.CharField(max_length=200, null =False ,unique = True)
     password = fields.CharField(max_length=100 , null=False)
@@ -36,8 +36,13 @@ class Product (Model):
     
 #Create pydantic Models
 
-user_pydantic = pydamtic_model_creator (User , name ="User" ,exclude=("is verified", ))
-user_pydanticIn = pydamtic_model_creator(User , name ="UserIn"  , exclude_readonly=True) #Obtain user data from frontend
-user_pydanticOut = pydamtic_model_creator
+user_pydantic = pydantic_model_creator (User , name ="User" ,exclude=("is verified", ))
+user_pydanticIn = pydantic_model_creator(User , name ="UserIn"  , exclude_readonly=True) #Obtain user data from frontend
+user_pydanticOut = pydantic_model_creator (User , name ="UserOut"  , exclude=("password"))
 
 
+business_pydantic = pydantic_model_creator(Business , name="Business")
+business_pydanticIn = pydantic_model_creator(Business , name="BusinessIn",exclude_readonly=True)
+
+product_pydantic = pydantic_model_creator(Product, name ="Product")
+product_pydanticIn = pydantic_model_creator(Product, name="ProductIn", exclude=("percentage_discount","id"))
